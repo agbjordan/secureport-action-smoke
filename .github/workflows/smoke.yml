@@ -1,0 +1,14 @@
+name: Smoke test agbjordan/secureport-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: agbjordan/secureport-action@56265d14e5de1e0066ba66bfe123495a9cc866a6 # bootstrap sync, pre-8.12b release
+        with:
+          mode: scan
+          cli-version: '0.3.0'
+          target-id: target_smoke
