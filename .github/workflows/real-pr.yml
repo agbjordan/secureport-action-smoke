@@ -1,0 +1,28 @@
+name: Real-PR proof of agbjordan/secureport-action@v1
+
+# P8 8.12b: the sticky comment, SARIF in code scanning and the fail-on gate,
+# exercised on a real pull request. scan.jsonl changes between pushes.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+  security-events: write
+
+jobs:
+  secureport:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: agbjordan/secureport-action@v1
+        with:
+          mode: upload
+          cli-version: "0.5.1"
+          target-id: ${{ vars.SECUREPORT_TARGET_ID }}
+          file: scan.jsonl
+          fail-on: high
+          sarif: true
+        env:
+          SECUREPORT_API_KEY: ${{ secrets.SECUREPORT_API_KEY }}
+          SECUREPORT_API_URL: ${{ vars.SECUREPORT_API_URL }}
